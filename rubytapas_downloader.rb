@@ -23,7 +23,7 @@ class RubytapasDownloader
   def launch
     puts "--- LAUNCHING RUBYTAPAS DOWNLOADER ---"
 
-    puts "--- LOGING IN AND SAVING COOKIE ---"
+    puts "--- LOG IN AND SAVE COOKIE ---"
     login_and_save_cookie
 
     binding.pry
