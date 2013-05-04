@@ -26,7 +26,6 @@ class RubytapasDownloader
     puts "--- LOG IN AND SAVE COOKIE ---"
     login_and_save_cookie
 
-    binding.pry
     new_episodes = @episodes.reject(&:downloaded?)
     count = new_episodes.size
     puts "#{count} NEW EPISODES"
@@ -47,9 +46,6 @@ class RubytapasDownloader
 
 private
 
-  ##
-  # Logins with https and saves the cookie
-  #
   def login_and_save_cookie
     system %Q{curl -c #{COOKIE_FILE} -d "username=#{USERNAME}&password=#{PASSWORD}" #{LOGIN_URL}}
   end
@@ -80,17 +76,13 @@ class Episode
     Dir.exist?(title)
   end
 
-  ##
-  # Downloads all the files
-  #
   def download!
     Dir.mkdir(title)
     files.each do |filename, url|
       file_path = File.join(title, filename)
-      system %Q{curl -o #{file_path} -b cookies.txt -d "username=#{USERNAME}&password=#{PASSWORD}" #{url}}
+      system %Q{curl -o #{file_path} -b #{COOKIE_FILE} -d "username=#{USERNAME}&password=#{PASSWORD}" #{url}}
     end
   end
 end
-
 
 RubytapasDownloader.new.launch
