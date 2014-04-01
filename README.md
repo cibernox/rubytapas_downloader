@@ -11,5 +11,12 @@ You need to have installed ruby >= 1.9, `httparty` and `nokogiri` gems and the `
 
 You also need to set your email and password in the constants on the top of the script after run it.
 
-This blog post may help you to understand how it works: [Rubytapas.com Downloader. How to Download Files From Https With Authentication](http://miguelcamba.com/blog/2013/05/04/rubytapas-dot-com-downloader-how-to-download-files-from-https-with-authentication/)
+You may also load this file via a console:
 
+```test
+$> irb -I. -r rubytapas_downloader.rb
+
+irb(main):001:0> RubytapasDownloader.new.launch
+```
+
+This blog post may help you to understand how it works: [Rubytapas.com Downloader. How to Download Files From Https With Authentication](http://miguelcamba.com/blog/2013/05/04/rubytapas-dot-com-downloader-how-to-download-files-from-https-with-authentication/)
