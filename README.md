@@ -9,11 +9,17 @@ You have to be subscribed in order to download the episodes. It's 9$/month, but 
 
 You need to have installed ruby >= 1.9, `httparty` and `nokogiri` gems and the `curl` command.
 
-You also need to set your email and password in the constants on the top of the script after run it.
+The script will default to download the files into the current directory. You may also pass a directory as an option to the script. For example:
+
+```text
+$> ruby rubytapas_downloader.rb ~/Download/RubyTapas
+```
+
+The script will load your credentials via the environment variables `RTAPAS_USERNAME` and `RTAPAS_PASSWORD`. You may also set your email and password in the constants on the top of the script before you run it.
 
 You may also load this file via a console:
 
-```test
+```text
 $> irb -I. -r rubytapas_downloader.rb
 
 irb(main):001:0> RubytapasDownloader.new.launch
