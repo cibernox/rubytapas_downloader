@@ -1,8 +1,9 @@
 require 'httparty'
 require 'nokogiri'
 
-USERNAME = "email-used@in-registration.com"
-PASSWORD = "your-password-here"
+USERNAME = ENV['RTAPAS_USERNAME'] || "email-used@in-registration.com"
+PASSWORD = ENV['RTAPAS_PASSWORD'] || "your-password-here"
+DOWNLOAD_DIR = ARGV.pop || File.dirname(__FILE__)
 COOKIE_FILE = 'cookies.txt' # by example
 
 class RubytapasDownloader
@@ -73,15 +74,22 @@ class Episode
   # TODO: Per-file checking instead of just a folder checking
   #
   def downloaded?
-    Dir.exist?(title)
+    Dir.exist?(File.join(DOWNLOAD_DIR, title))
   end
 
   def download!
-    Dir.mkdir(title)
+    verify_download_dir!
+    Dir.mkdir(File.join(DOWNLOAD_DIR, title))
     files.each do |filename, url|
-      file_path = File.join(title, filename)
-      system %Q{curl -o #{file_path} -b #{COOKIE_FILE} -d "username=#{USERNAME}&password=#{PASSWORD}" #{url}}
+      file_path = File.join(DOWNLOAD_DIR, title, filename)
+      system %Q{curl -o "#{file_path}" -b #{COOKIE_FILE} -d "username=#{USERNAME}&password=#{PASSWORD}" #{url}}
     end
+  end
+
+  def verify_download_dir!
+    return true if Dir.exists?(DOWNLOAD_DIR)
+    require 'fileutils'
+    FileUtils.mkdir_p(DOWNLOAD_DIR)
   end
 end
 
