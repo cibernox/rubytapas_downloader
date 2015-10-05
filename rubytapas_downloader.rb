@@ -11,7 +11,7 @@ class RubytapasDownloader
   LOGIN_URL = "http://rubytapas.dpdcart.com/subscriber/login?__dpd_cart=8f511233-b72b-4a8c-8c37-fadc74fbc3a1"
 
   ##
-  # Fetchs and parses the rss feed. Generates the episodes
+  # Fetches and parses the RSS feed. Generates the episodes
   #
   def initialize
     rss = HTTParty.get(FEED_URL, basic_auth: { username: USERNAME, password: PASSWORD })
@@ -58,7 +58,7 @@ class Episode
   attr_accessor :title, :files
 
   ##
-  # Extracts informations from the parsed XML node
+  # Extracts information from the parsed XML node
   #
   def initialize(parsed_rss_item)
     @title = parsed_rss_item.css('title').text.gsub(/\s|\W/, '-').gsub('--','-')
