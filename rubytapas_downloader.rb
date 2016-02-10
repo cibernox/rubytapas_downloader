@@ -74,12 +74,17 @@ class Episode
   # TODO: Per-file checking instead of just a folder checking
   #
   def downloaded?
-    Dir.exist?(File.join(DOWNLOAD_DIR, title))
+    Dir.exist?(File.join(DOWNLOAD_DIR, title)) and
+        files.all?{ |filename, url| File.exists?(File.join(DOWNLOAD_DIR, title, filename))}
   end
 
   def download!
     verify_download_dir!
-    Dir.mkdir(File.join(DOWNLOAD_DIR, title))
+
+    if !Dir.exists?(File.join(DOWNLOAD_DIR, title))
+        Dir.mkdir(File.join(DOWNLOAD_DIR, title))
+    end
+
     files.each do |filename, url|
       file_path = File.join(DOWNLOAD_DIR, title, filename)
       system %Q{curl -o "#{file_path}" -b #{COOKIE_FILE} -d "username=#{USERNAME}&password=#{PASSWORD}" #{url}}
