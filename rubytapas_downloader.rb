@@ -65,6 +65,8 @@ class Episode
     @files = {}
     parsed_description = Nokogiri::XML(parsed_rss_item.css('description').text)
     parsed_description.css('a').each do |link|
+      next unless link[:href].to_s.include?("download?file_id")
+
       @files[link.text] = link[:href]
     end
   end
